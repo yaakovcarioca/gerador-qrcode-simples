@@ -6,15 +6,25 @@
     <title>Gerador de QR Code</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
+        :root {
+            --bg-light: #F7F3E9;
+            --bg-dark: #2D2A32;
+            --text-light: #5E548E;
+            --text-dark: #EDEDED;
+            --button-light: #9F86C0;
+            --button-dark: #D4A5A5;
+        }
         body {
             font-family: Arial, sans-serif;
-            background: #F7F3E9;
+            background: var(--bg-light);
+            color: var(--text-light);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
+            transition: background 0.3s, color 0.3s;
         }
         .container {
             background: white;
@@ -22,9 +32,10 @@
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: background 0.3s;
         }
         h2 {
-            color: #5E548E;
+            color: var(--text-light);
         }
         input {
             width: 100%;
@@ -35,7 +46,7 @@
             margin-bottom: 10px;
         }
         button {
-            background: #9F86C0;
+            background: var(--button-light);
             color: white;
             border: none;
             padding: 10px;
@@ -43,6 +54,7 @@
             cursor: pointer;
             width: 100%;
             font-size: 16px;
+            transition: background 0.3s;
         }
         button:hover {
             background: #5E548E;
@@ -52,7 +64,6 @@
         }
         .download-btn {
             margin-top: 10px;
-            display: none;
             text-decoration: none;
             background: #E0AFA0;
             padding: 8px;
@@ -60,9 +71,39 @@
             border-radius: 8px;
             display: inline-block;
         }
+        .dark-mode {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        .dark-mode .container {
+            background: #3B3640;
+        }
+        .dark-mode h2 {
+            color: var(--text-dark);
+        }
+        .dark-mode button {
+            background: var(--button-dark);
+        }
+        .toggle-dark-mode {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--button-light);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            border: none;
+            transition: background 0.3s;
+        }
+        .dark-mode .toggle-dark-mode {
+            background: var(--button-dark);
+        }
     </style>
 </head>
 <body>
+    <button class="toggle-dark-mode" onclick="toggleDarkMode()">🌙 Modo Escuro</button>
     <div class="container">
         <h2>Gerador de QR Code</h2>
         <input type="text" id="text" placeholder="Digite o texto ou URL">
@@ -86,6 +127,16 @@
             let downloadBtn = document.getElementById('download');
             downloadBtn.href = canvas.toDataURL("image/png");
             downloadBtn.style.display = 'inline-block';
+        }
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            let button = document.querySelector('.toggle-dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                button.textContent = '☀️ Modo Claro';
+            } else {
+                button.textContent = '🌙 Modo Escuro';
+            }
         }
     </script>
 </body>
